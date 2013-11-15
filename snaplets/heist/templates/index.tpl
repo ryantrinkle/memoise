@@ -15,7 +15,12 @@
         </div>
       </div>
       <div class="hero-unit">
-        <h1>Hello, world!</h1>
+        <h1>memoi.se</h1>
+        <p>The world's laziest hyperlink shortener</p>
+        <form action="/" class="form-inline" method="post">
+          <input type="text" name="url" autofocus="autofocus" placeholder="Enter URL">
+          <input type="submit" class="btn btn-primary" value="Submit">
+        </form>
       </div>
       <div class="navbar navbar-fixed-bottom container-fluid">
         <div class="navbar-inner">

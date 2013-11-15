@@ -12,7 +12,11 @@ instance HasHeist Memoise where
   heistLens = subSnaplet heist
 
 indexHandler :: Handler Memoise Memoise ()
-indexHandler = render "index"
+indexHandler = do
+  mUrl <- getParam "url"
+  case mUrl of
+    Just url -> redirect url
+    Nothing -> render "index"
 
 memoiseInit :: SnapletInit Memoise Memoise
 memoiseInit = makeSnaplet "memoise" "The world's laziest hyperlink shortener" Nothing $ do
