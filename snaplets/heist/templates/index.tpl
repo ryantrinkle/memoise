@@ -18,7 +18,7 @@
         <h1>memoi.se</h1>
         <p>The world's laziest hyperlink shortener</p>
         <form action="/" class="form-inline" method="post">
-          <input type="text" name="url" autofocus="autofocus" placeholder="Enter URL">
+          <input main-textbox type="text" name="url" autofocus="autofocus" placeholder="Enter URL">
           <input type="submit" class="btn btn-primary" value="Submit">
         </form>
       </div>
