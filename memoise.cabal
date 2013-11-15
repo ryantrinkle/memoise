@@ -1,5 +1,5 @@
 Name:                memoise
-Version:             0.8
+Version:             0.9
 License:             BSD3
 Author:              Ryan Trinkle
 Maintainer:          ryan.trinkle@gmail.com
@@ -26,3 +26,4 @@ Executable memoise
   Extensions: OverloadedStrings
             , TemplateHaskell
             , FlexibleInstances
+            , ScopedTypeVariables

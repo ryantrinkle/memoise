@@ -2,3 +2,4 @@
 :set -XOverloadedStrings
 :set -XTemplateHaskell
 :set -XFlexibleInstances
+:set -XScopedTypeVariables

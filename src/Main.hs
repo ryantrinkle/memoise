@@ -2,6 +2,7 @@ import Snap
 import Snap.Snaplet.Heist
 import Snap.Snaplet.PostgresqlSimple
 import Snap.Util.FileServe
+import Snap.Extras.CoreUtils
 import Snap.Extras.TextUtils
 import Control.Lens
 import Data.Text
@@ -38,9 +39,20 @@ indexHandler = do
   case mUrl of
     Just url -> do
       urlId <- getUrlId $ decodeUtf8 url
-      mainTextboxContents .= Just ("URL saved with id " <> showT urlId)
+      mainTextboxContents .= Just ("http://memoi.se/" <> showT urlId)
       render "index"
     Nothing -> render "index"
+
+redirectHandler :: Handler Memoise Memoise ()
+redirectHandler = do
+  mUrlId :: Maybe Integer <- readMayParam "urlId"
+  case mUrlId of
+    Nothing -> redirect "/"
+    Just urlId -> do
+      results <- query "SELECT url FROM urls WHERE id = ?" (Only urlId)
+      case results of
+        (Only url) : _ -> redirect url
+        [] -> redirect "/"
 
 mainTextboxAttributeSplice :: AttrSplice (Handler Memoise Memoise)
 mainTextboxAttributeSplice _ = do
@@ -55,6 +67,7 @@ memoiseInit = makeSnaplet "memoise" "The world's laziest hyperlink shortener" No
   modifyHeistState $ bindAttributeSplices [("main-textbox", mainTextboxAttributeSplice)]
   d <- nestSnaplet "db" db pgsInit
   addRoutes [ ("static", serveDirectory "static")
+            , (":urlId", redirectHandler)
             , ("", indexHandler)
             ]
   return $ Memoise { _heist = h
