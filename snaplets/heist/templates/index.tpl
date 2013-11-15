@@ -11,6 +11,9 @@
         <div class="navbar-inner">
           <a class="brand" href="/">memoi.se</a>
           <ul class="nav">
+            <li><a href="https://hackage.haskell.org/package/memoise">Hackage</a></li>
+            <li><a href="https://github.com/ryantrinkle/memoise">GitHub</a></li>
+            <li><a href="#">Tutorial</a></li>
           </ul>
         </div>
       </div>
@@ -21,6 +24,9 @@
           <input main-textbox type="text" name="url" autofocus="autofocus" placeholder="Enter URL">
           <input type="submit" class="btn btn-primary" value="Submit">
         </form>
+      </div>
+      <div class="row-fluid">
+        <p class="lead span8 offset2">memoi.se is implemented in <a href="http://haskell.org">Haskell</a> using the <a href="http://snapframework.com/">Snap Framework</a>. It's part of a <a href="#">tutorial</a> designed to help you create your own Haskell web apps.</p>
       </div>
       <div class="navbar navbar-fixed-bottom container-fluid">
         <div class="navbar-inner">
