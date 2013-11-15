@@ -1,5 +1,5 @@
 Name:                memoise
-Version:             0.9
+Version:             0.10
 License:             BSD3
 Author:              Ryan Trinkle
 Maintainer:          ryan.trinkle@gmail.com
@@ -21,6 +21,7 @@ Executable memoise
                , heist                     >= 0.12     && < 0.13
                , lens                      >= 3.9      && < 3.10
                , text                      >= 0.11     && < 0.12
+               , network                   >= 2.4      && < 2.5
                , snaplet-postgresql-simple >= 0.4      && < 0.5
   GHC-options: -threaded -O2
   Extensions: OverloadedStrings

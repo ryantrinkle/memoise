@@ -10,6 +10,7 @@ import Data.Text.Encoding
 import Data.Monoid
 import Heist
 import Heist.Interpreted
+import Network.URI hiding (query)
 
 data Memoise
   = Memoise { _heist :: Snaplet (Heist Memoise)
@@ -24,8 +25,17 @@ instance HasHeist Memoise where
 instance HasPostgres (Handler Memoise Memoise) where
   getPostgresState = with db get
 
-getUrlId :: Text -> Handler Memoise Memoise Integer
-getUrlId url = do
+canonicalizeUrl :: Text -> Maybe URI
+canonicalizeUrl rawUrl =
+  let url = unpack rawUrl
+      url' = if isAbsoluteURI url
+             then url
+             else "http://" <> url
+  in parseURI $ normalizeCase $ normalizePathSegments $ normalizeEscape url'
+
+getUrlId :: URI -> Handler Memoise Memoise Integer
+getUrlId uri = do
+  let url = showT uri
   existingResults <- query "SELECT id FROM urls WHERE url = ?" (Only url)
   case existingResults of
     (Only urlId) : _ -> return urlId
@@ -38,8 +48,11 @@ indexHandler = do
   mUrl <- getParam "url"
   case mUrl of
     Just url -> do
-      urlId <- getUrlId $ decodeUtf8 url
-      mainTextboxContents .= Just ("http://memoi.se/" <> showT urlId)
+      case canonicalizeUrl (decodeUtf8 url) of
+        Just uri -> do
+          urlId <- getUrlId uri
+          mainTextboxContents .= Just ("http://memoi.se/" <> showT urlId)
+        Nothing -> mainTextboxContents .= Just "Invalid URL"
       render "index"
     Nothing -> render "index"
 
