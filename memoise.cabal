@@ -1,5 +1,5 @@
 Name:                memoise
-Version:             0.4
+Version:             0.5
 License:             BSD3
 Author:              Ryan Trinkle
 Maintainer:          ryan.trinkle@gmail.com
@@ -16,6 +16,7 @@ Executable memoise
   Main-is: Main.hs
   Build-depends: base                      >= 4        && < 5
                , snap                      >= 0.12     && < 0.13
+               , snap-core                 >= 0.9      && < 0.10
                , lens                      >= 3.9      && < 3.10
   GHC-options: -threaded -O2
   Extensions: OverloadedStrings
