@@ -1,3 +1,6 @@
+{-# LANGUAGE FlexibleInstances, UndecidableInstances #-}
+{-# LANGUAGE ConstraintKinds #-}
+
 import Snap
 import Snap.Snaplet.Heist
 import Snap.Util.FileServe
@@ -7,7 +10,8 @@ import Data.Text.Encoding
 import Data.Monoid
 import Heist
 import Heist.Interpreted
-
+import Control.Monad.Trans
+    
 data Memoise
   = Memoise { _heist :: Snaplet (Heist Memoise)
             , _mainTextboxContents :: Maybe Text
@@ -36,7 +40,7 @@ mainTextboxAttributeSplice _ = do
 memoiseInit :: SnapletInit Memoise Memoise
 memoiseInit = makeSnaplet "memoise" "The world's laziest hyperlink shortener" Nothing $ do
   h <- nestSnaplet "heist" heist $ heistInit "templates"
-  modifyHeistState $ bindAttributeSplices [("main-textbox", mainTextboxAttributeSplice)]
+  modifyHeistState $ bindAttributeSplices ("main-textbox" ## mainTextboxAttributeSplice)
   addRoutes [ ("static", serveDirectory "static")
             , ("", indexHandler)
             ]
