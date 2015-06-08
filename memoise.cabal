@@ -15,13 +15,14 @@ Executable memoise
   Hs-source-dirs: src
   Main-is: Main.hs
   Build-depends: base                      >= 4        && < 5
-               , snap                      >= 0.12     && < 0.13
+               , snap                      >= 0.12     
                , snap-core                 >= 0.9      && < 0.10
-               , snap-extras               >= 0.6      && < 0.7
-               , heist                     >= 0.12     && < 0.13
-               , lens                      >= 3.9      && < 3.10
-               , text                      >= 0.11     && < 0.12
-               , snaplet-postgresql-simple >= 0.4      && < 0.5
+               , snap-extras               >= 0.6      
+               , heist                     >= 0.12     
+               , lens                      >= 3.9      
+               , text                      >= 0.11     
+               , snaplet-postgresql-simple >= 0.4      
+               , mtl            
   GHC-options: -threaded -O2
   Extensions: OverloadedStrings
             , TemplateHaskell

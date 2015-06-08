@@ -1,3 +1,6 @@
+{-# LANGUAGE FlexibleInstances, UndecidableInstances #-}
+{-# LANGUAGE ConstraintKinds #-}
+
 import Snap
 import Snap.Snaplet.Heist
 import Snap.Snaplet.PostgresqlSimple
@@ -9,7 +12,9 @@ import Data.Text.Encoding
 import Data.Monoid
 import Heist
 import Heist.Interpreted
-
+import Control.Monad.Trans
+import Control.Monad.State
+    
 data Memoise
   = Memoise { _heist :: Snaplet (Heist Memoise)
             , _db :: Snaplet Postgres
@@ -52,7 +57,7 @@ mainTextboxAttributeSplice _ = do
 memoiseInit :: SnapletInit Memoise Memoise
 memoiseInit = makeSnaplet "memoise" "The world's laziest hyperlink shortener" Nothing $ do
   h <- nestSnaplet "heist" heist $ heistInit "templates"
-  modifyHeistState $ bindAttributeSplices [("main-textbox", mainTextboxAttributeSplice)]
+  modifyHeistState $ bindAttributeSplices ("main-textbox" ## mainTextboxAttributeSplice)
   d <- nestSnaplet "db" db pgsInit
   addRoutes [ ("static", serveDirectory "static")
             , ("", indexHandler)
